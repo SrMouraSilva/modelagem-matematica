@@ -52,7 +52,9 @@ setup(
         'numpy',
         'scipy',
         'matplotlib',
-        'ipywidgets'
+        #'ipywidgets',
+        'pandas',
+        'gpyopt'
     ],
 
     # test_suite='test',
