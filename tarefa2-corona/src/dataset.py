@@ -13,8 +13,8 @@ def dataset(pais):
     
     return dataset_pais
 
-def all():
-    return pd.read_csv('./src/dataset-20-03-2020.csv', encoding='iso-8859-1')
+def all(data='04-03-2020'):
+    return pd.read_csv(f'./src/dataset-{data}.csv', encoding='iso-8859-1')
 
 def mortalidade(base):
     return base.deaths.sum()/base.cases.sum()

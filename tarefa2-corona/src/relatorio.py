@@ -49,11 +49,14 @@ class Relatorio:
         populacao_inicial = sum(self.resultado[0,:3])
         populacao_final = sum(self.resultado[-1,:3])
         habitantes = np.ceil(populacao_inicial - populacao_final)
+        mortos_virus = self.resultado[-1,3]
 
         
-        print(f'População inicial:   {locale.format("%d", populacao_inicial, grouping=True)} habitantes')
-        print(f'População em um ano: {locale.format("%d", populacao_final, grouping=True)} habitantes')
-        print(f'Diferença na população em um ano: {locale.format("%d", habitantes, grouping=True)} de habitantes a menos')
+        print(f'População inicial:   {locale.format("%d", populacao_inicial, grouping=True)} habitantes (100%)')
+        print(f'População em um ano: {locale.format("%d", populacao_final, grouping=True)} habitantes ({(populacao_final/populacao_inicial) * 100:.2f}%)')
+        print(f' - Diferença na população em um ano: {locale.format("%d", habitantes, grouping=True)} de habitantes a menos')
+        print(f' - População morta pelo SARS-COV-2 em um ano: {locale.format("%d", mortos_virus, grouping=True)} habitantes')
+        
         print()
         
         print()
@@ -72,9 +75,10 @@ class Relatorio:
         pl.figure(figsize=(10, 6))
         pl.title('Modelo SIR com mortalidade induzida por doença:\nTransmissão dependente da frequência')
 
-        pl.plot(self.S, '-b', label='Suscetíveis')
-        pl.plot(self.I, '-r', label='Infectados')
-        pl.plot(self.R, '-k', label='Recuperados')
+        pl.plot(self.S, '-', color='#0173b2', linewidth=2.5, label='Suscetíveis')
+        pl.plot(self.I, '-', color='#de8f05', linewidth=2.5, label='Infectados')
+        pl.plot(self.R, '-', color='#949494', linewidth=2.5, label='Recuperados')
+        pl.plot(self.D, '-', color='#ece133', linewidth=2.5, label='Mortes')
 
         pl.plot(self.P, '--k', label='População total')
         pl.xlabel('Tempo (em dias)')
@@ -94,8 +98,8 @@ class Relatorio:
         
         pl.figure(figsize=(10, 6))
         pl.title(f'Número de infectados e predição entre os dias {dia_primeira_infeccao} e {dia_final_formatado}')
-        pl.plot(self.I[:total_dias], '-', label='Infectados - Predição')
-        pl.plot(casos_reais, 'xr', label='Infectados - Confirmados')
+        pl.plot(self.I[:total_dias], '-', color='#de8f05', linewidth=2., label='Infectados - Predição')
+        pl.plot(casos_reais, 'xr', color='#8c0800', linewidth=2., label='Infectados - Confirmados')
 
         pl.legend(loc=0)
         pl.xlabel('Tempo (em dias)')
@@ -113,6 +117,10 @@ class Relatorio:
     @property
     def R(self):
         return self.resultado[:, 2]
+    
+    @property
+    def D(self):
+        return self.resultado[:, 3]
     
     @property
     def P(self):
