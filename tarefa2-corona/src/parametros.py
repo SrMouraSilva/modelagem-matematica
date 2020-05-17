@@ -5,8 +5,12 @@ from dataclasses import dataclass
 class Parametros:
     pais: str
 
+    N_UTI: float
+    C_UTI: float
+
     μ: float
     υ: float
+    σ: float
 
     β: float
     γ: float
