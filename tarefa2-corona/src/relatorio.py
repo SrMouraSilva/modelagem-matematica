@@ -6,7 +6,7 @@ import pylab as pl
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
-from src.dataset import dataset
+from src.dataset import dataset, dataset_estado
 from src.utils import rmse
 
 
@@ -14,7 +14,7 @@ class Relatorio:
     def __init__(self, parametros, resultado):
         self.parametros = parametros
         self.resultado = resultado
-        self.dataset = dataset(self.parametros.pais)
+        self.dataset = dataset(self.parametros.pais) if parametros.pais is not None else dataset_estado(self.parametros.estado)
 
     def relatorio(self):
         print('===============================')
@@ -95,11 +95,12 @@ class Relatorio:
         mortos_dia_a_dia = [ontem - hoje for hoje, ontem in zip(self.P[1:], self.P)]
         
         dia_primeira_infeccao = self.dataset.dateRep.values[0]
+        dia_primeira_infeccao_formatado = pd.to_datetime(str(dia_primeira_infeccao)).strftime('%d/%m/%Y')
         dia_final = self.dataset.date.values[0] + np.timedelta64(total_dias, "D")
         dia_final_formatado = pd.to_datetime(str(dia_final)).strftime('%d/%m/%Y')
         
         pl.figure(figsize=(10, 6))
-        pl.title(f'Número de infectados e predição entre os dias {dia_primeira_infeccao} e {dia_final_formatado}')
+        pl.title(f'Número de infectados e predição entre os dias {dia_primeira_infeccao_formatado} e {dia_final_formatado}')
         pl.plot(self.I[:total_dias], '-', color='#de8f05', linewidth=2., label='Infectados - Predição')
         pl.plot(casos_reais, 'xr', color='#8c0800', linewidth=2., label='Infectados - Confirmados')
 
@@ -119,7 +120,7 @@ class Relatorio:
 
         pacientes = self.I * N_UTI
         dados = pd.DataFrame([[C_UTI] * len(self.I), pacientes]).T[:primeiros_n_dias]
-        dados.columns = ['Leitos de UTI', 'Pacientes']
+        dados.columns = ['Leitos de UTI', 'Pessoas necessitando de UTI']
 
         ax = dados.plot(title='Número de pacientes necessitando de UTI', figsize=(8, 3))
         ax.set_xlabel("Tempo (em dias)")

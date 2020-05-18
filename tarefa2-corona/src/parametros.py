@@ -3,8 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class Parametros:
-    pais: str
-
     N_UTI: float
     C_UTI: float
 
@@ -21,3 +19,6 @@ class Parametros:
 
     tempo_step: int = 1
     numero_dias: float = 365.0
+    
+    pais: str = None
+    estado: str = None

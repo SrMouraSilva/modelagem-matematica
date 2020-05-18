@@ -54,7 +54,8 @@ setup(
         'matplotlib',
         #'ipywidgets',
         'pandas',
-        'gpyopt'
+        'gpyopt',
+        'xlrd'
     ],
 
     # test_suite='test',

@@ -18,3 +18,18 @@ def all(data='17-05-2020'):
 
 def mortalidade(base):
     return base.deaths.sum()/base.cases.sum()
+
+def dataset_estado(sigla):
+    import pandas as pd
+    data = pd.read_excel('./src/HIST_PAINEL_COVIDBR_20200516.xlsx')
+
+    data['cum_cases'] = data.casosAcumulado
+    data['cum_deaths'] = data.obitosAcumulado
+    data['date'] = pd.to_datetime(data.data, format='%Y-%m-%d')
+    data['dateRep'] = data.data
+
+    data = data[(data.estado == sigla) & data.codmun.isnull()].copy()
+    data['cases'] = data.casosAcumulado.values - np.concatenate([[0], data.casosAcumulado[:-1].values])
+    data['deaths'] = data.obitosAcumulado.values - np.concatenate([[0], data.obitosAcumulado[:-1].values])
+
+    return data
