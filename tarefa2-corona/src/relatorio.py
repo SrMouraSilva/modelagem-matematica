@@ -18,7 +18,10 @@ class Relatorio:
 
     def relatorio(self):
         print('===============================')
-        print(f' País: {self.parametros.pais}')
+        if self.parametros.pais is not None:
+            print(f' País: {self.parametros.pais}')
+        else:
+            print(f' Estado: {self.parametros.estado}')
         print('===============================')
         print()
         print('Parâmetros')
@@ -74,7 +77,7 @@ class Relatorio:
 
     def plot_geral(self):
         pl.figure(figsize=(10, 6))
-        pl.title('Modelo SIR com mortalidade induzida por doença:\nTransmissão dependente da frequência')
+        pl.title('Modelo SEIR com mortalidade induzida por doença:\nTransmissão dependente da frequência')
 
         pl.plot(self.S, '-', color='#0173b2', linewidth=2.5, label='Suscetíveis')
         pl.plot(self.E, '-', color='#ece133', linewidth=2.5, label='Expostos')

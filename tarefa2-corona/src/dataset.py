@@ -13,7 +13,7 @@ def dataset(pais):
     
     return dataset_pais
 
-def all(data='17-05-2020'):
+def all(data='24-05-2020'):
     return pd.read_csv(f'./src/dataset-{data}.csv', encoding='iso-8859-1')
 
 def mortalidade(base):
