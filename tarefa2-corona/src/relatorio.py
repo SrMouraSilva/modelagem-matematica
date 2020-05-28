@@ -36,13 +36,14 @@ class Relatorio:
 
         pico = np.argmax(self.I)
         dia_primeira_infeccao = self.dataset.dateRep.values[0]
+        dia_primeira_infeccao_formatado = pd.to_datetime(str(self.dataset.dateRep.values[0])).strftime('%d/%m/%Y')
         dia_pico = self.dataset.date.values[0] + np.timedelta64(pico, "D")
         dia_pico_formatado = pd.to_datetime(str(dia_pico)).strftime('%d/%m/%Y')
 
         print()
         print(f'Datas')
         print('-------------------------------')
-        print(f'{dia_primeira_infeccao} - Data de identificação do primeiro infectado')
+        print(f'{dia_primeira_infeccao_formatado} - Data de identificação do primeiro infectado')
         print(f'{dia_pico_formatado} - Dia de pico de infectados ({pico}º dia de contágio)')
         
         print()
@@ -103,13 +104,13 @@ class Relatorio:
         dia_final_formatado = pd.to_datetime(str(dia_final)).strftime('%d/%m/%Y')
         
         pl.figure(figsize=(10, 6))
-        pl.title(f'Número de infectados e predição entre os dias {dia_primeira_infeccao_formatado} e {dia_final_formatado}')
+        pl.title(f'Casos acumulados de COVID-19 e predição entre os dias {dia_primeira_infeccao_formatado} e {dia_final_formatado}')
         pl.plot(self.contaminados[:total_dias], '-', color='#1976D2', linewidth=2., label='Infectados - Predição')
         pl.plot(casos_reais, 'xr', color='#8c0800', linewidth=1.5, label='Infectados - Confirmados')
 
         pl.legend(loc=0)
         pl.xlabel('Tempo (em dias)')
-        pl.ylabel('Número de pessoas')
+        pl.ylabel('Casos acumulados (número de pessoas)')
         pl.show()
 
     def plot_infectados_por_semana(self, ultimos_n_dias):
