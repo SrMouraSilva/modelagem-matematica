@@ -104,8 +104,8 @@ class Relatorio:
         
         pl.figure(figsize=(10, 6))
         pl.title(f'Número de infectados e predição entre os dias {dia_primeira_infeccao_formatado} e {dia_final_formatado}')
-        pl.plot(self.I[:total_dias], '-', color='#de8f05', linewidth=2., label='Infectados - Predição')
-        pl.plot(casos_reais, 'xr', color='#8c0800', linewidth=2., label='Infectados - Confirmados')
+        pl.plot(self.contaminados[:total_dias], '-', color='#1976D2', linewidth=2., label='Infectados - Predição')
+        pl.plot(casos_reais, 'xr', color='#8c0800', linewidth=1.5, label='Infectados - Confirmados')
 
         pl.legend(loc=0)
         pl.xlabel('Tempo (em dias)')
@@ -163,3 +163,7 @@ class Relatorio:
     @property
     def P(self):
         return sum([self.S, self.I, self.R])
+
+    @property
+    def contaminados(self):
+        return self.resultado[:, 5]
