@@ -12,12 +12,15 @@ set_matplotlib_formats('pdf')
 plt.rcParams["figure.figsize"] = (8, 8)
 
 
-def phase_portrait(linhas, H, solucao, linspace):
+def phase_portrait(linhas, H, solucao, linspace, limites=None):
     x1, x2 = sp.var('x1 x2', real=True)
     
     s = float(solucao[x1]), float(solucao[x1])
-    x1min, x1max = (0-1, 0+1)
-    x2min, x2max = (0-1, 0+1)
+    if limites is None:
+        limites = (1, 1)
+    x1lim, x2lim = limites
+    x1min, x1max = (0-x1lim, 0+x1lim)
+    x2min, x2max = (0-x2lim, 0+x2lim)
 
     fig = plt.figure(num=1)
     ax=fig.add_subplot(111)
